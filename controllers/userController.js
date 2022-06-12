@@ -17,7 +17,7 @@ export const loginController = async (req, res) => {
       res.cookie("token", tokenGenerator(User._id), {
         expires: new Date(86400000 + Date.now()),
         // httpOnly: true,
-        secure:True, 
+        secure:true, 
         domain:".herokuapp.com", 
         samesite:'none',
       });
@@ -51,7 +51,7 @@ export const signinController = async (req, res) => {
       res.cookie("token", tokenGenerator(user._id), {
         expires: new Date(86400000 + Date.now()),
         // httpOnly: true,
-        secure:True, 
+        secure:true, 
         domain:".herokuapp.com", 
         samesite:'none',
       });
@@ -67,7 +67,7 @@ export const logoutController = async (req, res) => {
   res.cookie("token", "logging out", {
     expires: new Date(Date.now() - 86400000),
     // httpOnly: true,
-    secure:True, 
+    secure:true, 
     domain:".herokuapp.com", 
     samesite:'none',
   });
