@@ -13,7 +13,7 @@ await mongooseConnect();
 
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(cors({ credentials: false }));
+app.use(cors({ credentials: false , origin:"https://62a5f7b63eb97f713b416675--superlative-vacherin-491061.netlify.app/"}));
 //app.set("trust proxy", 1);
 
 app.get("/", (req, res) => res.send("server running"));
