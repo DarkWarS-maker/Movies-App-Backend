@@ -14,16 +14,17 @@ export const loginController = async (req, res) => {
     const isMatch = await bcrypt.compare(password, User.password);
 
     if (isMatch) {
-      res.cookie("token", tokenGenerator(User._id), {
-        expires: new Date(86400000 + Date.now()),
-        // httpOnly: true,
-        secure:true, 
-        domain:".herokuapp.com", 
-        samesite:'none',
-      });
+      // res.cookie("token", , {
+      //   expires: new Date(86400000 + Date.now()),
+      //   // httpOnly: true,
+      //   secure:true, 
+      //   domain:".herokuapp.com", 
+      //   samesite:'none',
+      // });
 
       res.status(200).json({
         email,
+        token: tokenGenerator(User._id)
       });
     } else {
       res.status(401);
@@ -48,14 +49,14 @@ export const signinController = async (req, res) => {
     });
 
     if (user) {
-      res.cookie("token", tokenGenerator(user._id), {
-        expires: new Date(86400000 + Date.now()),
-        // httpOnly: true,
-        secure:true, 
-        domain:".herokuapp.com", 
-        samesite:'none',
-      });
-      res.status(200).json({ email, username, _id: user._id });
+      // res.cookie("token",, {
+      //   expires: new Date(86400000 + Date.now()),
+      //   // httpOnly: true,
+      //   secure:true, 
+      //   domain:".herokuapp.com", 
+      //   samesite:'none',
+      // });
+      res.status(200).json({ email, username, token :  tokenGenerator(user._id) });
     } else {
       res.status(400);
       throw new Error("failed to create user");
@@ -64,12 +65,12 @@ export const signinController = async (req, res) => {
 };
 
 export const logoutController = async (req, res) => {
-  res.cookie("token", "logging out", {
-    expires: new Date(Date.now() - 86400000),
-    // httpOnly: true,
-    secure:true, 
-    domain:".herokuapp.com", 
-    samesite:'none',
-  });
+  // res.cookie("token", "logging out", {
+  //   expires: new Date(Date.now() - 86400000),
+  //   // httpOnly: true,
+  //   secure:true, 
+  //   domain:".herokuapp.com", 
+  //   samesite:'none',
+  // });
   res.status(200).json({ message: "Logged out successfully" });
 };

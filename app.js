@@ -25,5 +25,5 @@ app.use((error, req, res, next) => {
   console.log(error);
   res.status(400).json({ message: error.message });
 });
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, console.log("server is running... "));

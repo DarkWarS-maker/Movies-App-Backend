@@ -1,39 +1,29 @@
 import jwt from "jsonwebtoken";
 import ash from "express-async-handler";
-export const isAuth = ash((req, res, next) => {
-  // const authHeader = req.headers.authorization;
+import User from '../models/User.js'
+export const isAuth = ash(async (req, res, next) => {
+  let token;
+    
+    if(req.headers.authorization && req.headers.authorization.startsWith('Bearer'))
+    {
+        try {
+            
+            token = req.headers.authorization.split(' ')[1]
+            
+            const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY );
+            
+            req.user_id = await User.findById(decoded.id).select('-password')
 
-  // const error = new Error("Not authenticated");
-  // error.statusCode = 401;
+            next()
+        } catch (error) {
+            console.log(error)
+             res.status(401);
+			 throw new Error("Authorization Error,Token Failed");
+        }
+    }
 
-  // if (!authHeader) {
-  //   throw error;
-  // }
-  const cook = req.headers.cookie;
-
-  let token = "";
-  // req.headers.Authrization = `Bearer ${token}`
-  for (
-    let i = cook.search("token=") + 6;
-    cook[i] != ";" && i < cook.length;
-    i++
-  ) {
-    token += cook[i];
-  }
-  // console.log(token);
-  let decodedToken;
-  try {
-    decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
-  } catch (err) {
-    err.statusCode = 500;
-    // console.log(err, "here");
-    throw err;
-  }
-
-  if (!decodedToken) {
-    console.log(error);
-  }
-  // console.log(decodedToken);
-  req.user_id = decodedToken.id;
-  next();
+    if(!token){
+        res.status(401)
+        throw new Error('Authorization Error, No Token Found')
+    }
 });
