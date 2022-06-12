@@ -16,8 +16,10 @@ export const loginController = async (req, res) => {
     if (isMatch) {
       res.cookie("token", tokenGenerator(User._id), {
         expires: new Date(86400000 + Date.now()),
-        httpOnly: true,
-        domain: ".herokuapp.com",
+        // httpOnly: true,
+        secure:True, 
+        domain:".herokuapp.com", 
+        samesite:'none',
       });
 
       res.status(200).json({
@@ -48,8 +50,10 @@ export const signinController = async (req, res) => {
     if (user) {
       res.cookie("token", tokenGenerator(user._id), {
         expires: new Date(86400000 + Date.now()),
-        httpOnly: true,
-        domain: ".herokuapp.com",
+        // httpOnly: true,
+        secure:True, 
+        domain:".herokuapp.com", 
+        samesite:'none',
       });
       res.status(200).json({ email, username, _id: user._id });
     } else {
@@ -62,8 +66,10 @@ export const signinController = async (req, res) => {
 export const logoutController = async (req, res) => {
   res.cookie("token", "logging out", {
     expires: new Date(Date.now() - 86400000),
-    httpOnly: true,
-    domain: ".herokuapp.com",
+    // httpOnly: true,
+    secure:True, 
+    domain:".herokuapp.com", 
+    samesite:'none',
   });
   res.status(200).json({ message: "Logged out successfully" });
 };
