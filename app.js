@@ -13,7 +13,7 @@ await mongooseConnect();
 
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(cors());
 app.set("trust proxy", 1);
 
 app.get("/", (req, res) => res.send("server running"));
